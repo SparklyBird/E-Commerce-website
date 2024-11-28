@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.0/font/bootstrap-icons.min.css"
+          rel="stylesheet">
+    <title th:text="${product.name}">Product Details</title>
+</head>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .breadcrumb {
+        background-color: #f8f9fa;
+        border-radius: 0.25rem;
+        padding: 10px 15px;
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+    }
+
+    .breadcrumb-item a {
+        color: #0d6efd;
+        text-decoration: none;
+    }
+
+    .breadcrumb-item a:hover {
+        text-decoration: underline;
+        color: #0056b3;
+    }
+
+    .breadcrumb-item.active {
+        color: #6c757d;
+    }
+</style>
+<body>
+
+<!-- Header -->
+<div th:replace="fragments/header :: header"></div>
+
+<!-- Main Content -->
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/products/category/{id}(id=${product.category.id})}"
+                                           th:text="${product.category.name}">Category</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${product.name}">Product</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-6">
+            <img th:src="${product.imageUrl}"
+                 th:alt="${product.name}" class="img-fluid rounded shadow">
+        </div>
+        <div class="col-md-6">
+            <h1 class="mb-3" th:text="${product.name}">Product Name</h1>
+            <p class="lead" th:text="${product.description}">Product Description</p>
+            <div class="mb-3">
+                <span class="badge bg-primary" th:text="${product.category.name}">Category Name</span>
+            </div>
+            <p class="h3 mb-3"><span th:text="${#numbers.formatDecimal(product.unitPrice, 1, 2)}">0.00</span>€</p>
+            <p><strong>SKU:</strong> <span th:text="${product.sku}">SKU</span></p>
+            <p><strong>In Stock:</strong> <span th:text="${product.unitsInStock}">0</span></p>
+
+            <form th:action="@{/cart/add}" method="post" class="mt-4">
+                <input type="hidden" name="productId" th:value="${product.id}">
+                <div class="form-group mb-3">
+                    <label for="quantity" class="form-label">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1"
+                           th:max="${product.unitsInStock}" class="form-control" style="width: 100px;">
+                </div>
+                <button type="button"
+                        class="btn btn-primary"
+                        th:attr="data-product-id=${product.id}"
+                        onclick="addToCart(this)"
+                        th:if="${product.unitsInStock > 0}">
+                    Add to Cart
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-5" th:if="${not #lists.isEmpty(product.attributeValues)}">
+        <h2 class="mb-3">Product Attributes</h2>
+        <table class="table table-striped">
+            <thead class="table-dark">
+            <tr>
+                <th>Attribute</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="attributeValue : ${product.attributeValues}">
+                <td th:text="${attributeValue.attribute.name}">Attribute Name</td>
+                <td th:text="${attributeValue.value}">Attribute Value</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
+    function addToCart(button) {
+        const productId = button.getAttribute('data-product-id').trim();
+        const url = `/shoppingCart/addProductToCart/${productId}`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('cartItemCount').textContent = data.cartItemCount;
+                // You can add more UI updates here, like showing a success message
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle errors, maybe show an error message to the user
+            });
+    }
+</script>
+</body>
+</html>

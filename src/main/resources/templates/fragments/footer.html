@@ -1,0 +1,52 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<section th:fragment="footer">
+    <nav class="footer">
+        <div class="footer bg-dark text-light py-4 mt-5">
+            <div class="container">
+                <div class="row mb-4">
+                    <div class="col-md-2">
+                        <a th:href="@{/}">
+                            <img th:src="@{/images/logo.png}" alt="Logo" style="max-width: 120px; max-height: 120px;">
+                        </a>
+                    </div>
+
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <h5>Contacts</h5>
+                                <p>
+                                    Address: Brīvības iela 214, Rīga, LV-1039<br>
+                                    Email: info@balticommerce.lv<br>
+                                    Phone: (+371) 85 019 700
+                                </p>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <h5>Categories</h5>
+                                <ul class="list-unstyled">
+                                    <li th:each="category : ${categories}">
+                                        <a class="text-light" th:href="@{/products/category/{id}(id=${category.id})}" th:text="${category.name}"></a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <h5>Info</h5>
+                                <ul class="list-unstyled">
+                                    <li><a class="text-light" th:href="@{/about-us}">About Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row text-center mt-3">
+                    <div class="col-md-12">
+                        <p class="mb-0">&copy; 2024 Balticommerce All Rights Reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</section>
+</html>

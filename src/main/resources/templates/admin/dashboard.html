@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a th:href="@{/}" class="btn btn-secondary">Homepage</a>
+        <h1 class="mx-auto">Admin Dashboard</h1>
+        <div style="width: 81px;"></div> <!-- Placeholder to balance the flex container -->
+    </div>
+
+    <section class="section mb-5">
+        <h2 class="mb-3">Search Items</h2>
+        <form id="searchForm" class="form">
+            <div class="form-group">
+                <input type="text" id="searchInput" name="search" class="form-control" placeholder="Search...">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </section>
+
+    <section id="productsSection" class="section mb-5">
+        <h2 class="mb-3">Products</h2>
+        <a class="btn btn-primary mb-3" th:href="@{/admin/addProduct}">Add Product</a>
+        <div id="productTableContainer">
+        </div>
+    </section>
+
+    <section id="categoriesSection" class="section mb-5">
+        <h2 class="mb-3">Categories</h2>
+        <a class="btn btn-primary mb-3" th:href="@{/admin/addCategory}">Add Category</a>
+        <div id="categoryTableContainer">
+        </div>
+    </section>
+
+    <section id="usersSection" class="section mb-5">
+        <h2 class="mb-3">Users</h2>
+        <a class="btn btn-primary mb-3" th:href="@{/admin/addUser}">Add New User</a>
+        <div id="userTableContainer">
+        </div>
+    </section>
+</div>
+
+<script th:inline="javascript">
+    $(document).ready(function() {
+        var contextPath = '/';
+
+        function loadTable(type, page, search) {
+            var url = contextPath + 'admin/' + type + 'Table?page=' + page;
+            if (search) {
+                url += '&search=' + encodeURIComponent(search);
+            }
+            $.get(url, function(data) {
+                $('#' + type + 'TableContainer').html(data);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                console.error("Error loading " + type + " table:", textStatus, errorThrown);
+                $('#' + type + 'TableContainer').html('<p class="text-danger">Error loading ' + type + ' table. Please try again.</p>');
+            });
+        }
+
+        function loadAllTables(page, search) {
+            loadTable('product', page, search);
+            loadTable('category', page, search);
+            loadTable('user', page, search);
+        }
+
+        loadAllTables(0, '');
+
+        $('#searchForm').submit(function(e) {
+            e.preventDefault();
+            var search = $('#searchInput').val();
+            loadAllTables(0, search);
+        });
+
+        // Pagination click handler
+        $(document).on('click', '.pagination .page-link', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var type = $this.data('type');
+            var page = $this.data('page');
+            var search = $('#searchInput').val();
+            loadTable(type, page, search);
+        });
+    });
+</script>
+</body>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+</style>
+</html>

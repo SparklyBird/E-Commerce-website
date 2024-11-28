@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add User</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <a href="/admin" class="btn btn-secondary mb-4"><i class="fa fa-arrow-left"></i> Back</a>
+    <h2 class="mb-4 text-center font-bold">Add New User</h2>
+    <form th:action="@{/admin/addUser}" th:object="${user}" method="post">
+        <div class="row mb-3">
+            <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <label for="login" class="font-bold">Username:</label>
+                    <input type="text" id="login" th:field="*{login}" class="form-control short-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="font-bold">Password:</label>
+                    <input type="password" id="password" th:field="*{password}" class="form-control short-input"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="role" class="font-bold">Role:</label>
+                    <select id="role" th:field="*{role}" class="form-control short-input" required>
+                        <option value="ADMIN" th:selected="${user.role == 'ADMIN'}">ADMIN</option>
+                        <option value="USER" th:selected="${user.role == 'USER'}">USER</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Add User</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .font-bold {
+        font-weight: bold;
+    }
+
+    .short-input {
+        max-width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        margin-bottom: 0.5rem;
+    }
+
+    select.form-control {
+        padding: 0.375rem 0.75rem;
+        border-radius: 0.25rem;
+        border: 1px solid #ced4da;
+    }
+</style>
+</html>

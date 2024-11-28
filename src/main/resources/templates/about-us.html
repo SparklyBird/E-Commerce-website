@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>About Us - Balticommerce</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .about-section {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        .feature-icon {
+            font-size: 2rem;
+            color: #0d6efd;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+    <div class="about-section">
+        <h1 class="text-center mb-4">About Balticommerce</h1>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h2>Our Story</h2>
+                <p>Balticommerce was founded in 2024 with a vision to revolutionize online shopping in the Baltic region. We strive to provide a seamless and enjoyable shopping experience for our customers while supporting local and international brands.</p>
+            </div>
+            <div class="col-md-6">
+                <h2>Our Mission</h2>
+                <p>Our mission is to connect consumers with high-quality products at competitive prices. We aim to foster a community of satisfied customers and trusted sellers, promoting economic growth and innovation in e-commerce.</p>
+            </div>
+        </div>
+
+        <h2 class="text-center mb-4">Why Choose Balticommerce?</h2>
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <i class="bi bi-shop feature-icon mb-3"></i>
+                <h3>Wide Selection</h3>
+                <p>Browse through thousands of products from various categories to find exactly what you need.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <i class="bi bi-shield-check feature-icon mb-3"></i>
+                <h3>Secure Shopping</h3>
+                <p>Shop with confidence knowing that your personal and payment information is protected.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <i class="bi bi-truck feature-icon mb-3"></i>
+                <h3>Fast Delivery</h3>
+                <p>Enjoy quick and reliable delivery services to get your purchases as soon as possible.</p>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <h2>Join Our Community</h2>
+            <p>Become a part of the Balticommerce family and experience the future of online shopping. Whether you're a shopper looking for great deals or a seller wanting to reach a wider audience, we have something for everyone.</p>
+            <a th:href="@{/}" class="btn btn-primary btn-lg mt-3">Start Shopping Now</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
