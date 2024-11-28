@@ -24,5 +24,7 @@ For login you can use admin "admin@gmail.com" and regular "user@gmail.com" user,
 
 Note:
 If you want to be able to pay with stripe and see your results, add your stripe public and secret key in: ./resources/application.properties
+
 stripe.key.public=...
+
 stripe.key.secret=...
